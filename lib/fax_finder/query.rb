@@ -21,7 +21,7 @@ module FaxFinder
       params=[BASE_PATH, fax_key, entry_key].reject{ |p| p.nil? }
       File.join(*params)
     end
-    
+
   end
   
 end

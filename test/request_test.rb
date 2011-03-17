@@ -4,7 +4,7 @@ module FaxFinder
 
     class RequestSetupTest<Test::Unit::TestCase
       def setup
-        Request.configure('example.com', 'user', 'password', true)
+        Request.configure('example.com', 'user', 'password', 123, true)
       end
 
       def test_setup_host
@@ -19,6 +19,10 @@ module FaxFinder
         assert_equal('password', Request.password)
       end
 
+      def test_setup_port
+        assert_equal(123, Request.port)
+      end
+
       def test_setup_ssl
         assert_equal(true, Request.ssl)
       end
@@ -27,20 +31,32 @@ module FaxFinder
 
     class RequestResetTest<Test::Unit::TestCase
       def setup
-        Request.configure('example.com', 'user', 'password')
+        Request.configure('example.com', 'user', 'password', 123, true)
         Request.reset
       end
 
-      def test_setup_host
+      def test_resets_host
         assert_nil(Request.host)
       end
 
-      def test_setup_user
+      def test_resets_user
         assert_nil(Request.user)
       end
 
-      def test_setup_password
+      def test_resets_port
+        assert_nil(Request.port)
+      end
+
+      def test_resets_password
         assert_nil(Request.password)
+      end
+      
+      def test_resets_port
+        assert_equal(80, Request.port)
+      end
+
+      def test_resets_ssl
+        assert_equal(false, Request.ssl)
       end
 
     end

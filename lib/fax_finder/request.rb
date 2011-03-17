@@ -4,22 +4,29 @@ require 'net/https'
 module FaxFinder
   module Constants
     BASE_PATH='/ffws/v1/ofax'
+    DEFAULT_PORT=80
+    DEFAULT_SSL=false
   end
   
   module RequestClassMethods
-    attr_reader :host, :user, :password, :ssl
-    def configure(_host, _user, _password, _ssl=false)
-      @host, @user, @password, @ssl=_host, _user, _password, _ssl
+    attr_reader :host, :user, :password, :port, :ssl
+    def configure(_host, _user, _password, _port=Request::DEFAULT_PORT, _ssl=Request::DEFAULT_SSL)
+      @host, @user, @password, @port, @ssl=_host, _user, _password, _port, _ssl
     end
 
     def reset
       @host=@user=@password=nil
+      @port=Request::DEFAULT_PORT
+      @ssl=Request::DEFAULT_SSL
     end
 
     def post
       response_body=nil
-      Net::HTTP.start(Request.host) { |http|  
+      Net::HTTP.start(Request.host, Request.port) { |http|  
+        http.use_ssl=Request.ssl
         http_request = yield
+        http_request.basic_auth self.user, self.password
+        http_request.set_content_type(Request::CONTENT_TYPE)
         http_response = http.request(http_request)
         response_body=http_response.body
       }

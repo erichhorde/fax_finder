@@ -113,14 +113,6 @@ module FaxFinder
       assert_equal(Request::BASE_PATH, @http_request.path)
     end
     
-    def test_sets_basic_auth
-      assert_not_nil(@http_request['authorization'])
-    end
-
-    def test_sets_content_type
-      assert_equal('text/xml', @http_request['Content-Type'])
-    end
-
   end
 
 end

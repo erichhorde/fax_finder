@@ -50,9 +50,7 @@ module FaxFinder
     
     def construct_http_request(recipient_fax, external_url, options={})
       request = Net::HTTP::Post.new(Request::BASE_PATH)
-      request.basic_auth self.user, self.password
       request.body=construct_xml(recipient_fax, external_url, options)
-      request.set_content_type(Request::CONTENT_TYPE)
       request
     end
 

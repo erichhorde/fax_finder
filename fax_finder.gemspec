@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Erich L. Timkar"]
-  s.date = %q{2011-03-16}
+  s.date = %q{2011-03-17}
   s.email = %q{erich@hordesoftware.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -21,15 +21,16 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
-     "fax_finder-0.0.1.gem",
      "fax_finder.gemspec",
      "lib/fax_finder.rb",
+     "lib/fax_finder/query.rb",
      "lib/fax_finder/request.rb",
      "lib/fax_finder/response.rb",
      "lib/fax_finder/send.rb",
      "test/fixtures/send_request_external.xml",
      "test/fixtures/send_request_inline.xml",
      "test/fixtures/send_response_success.xml",
+     "test/query_test.rb",
      "test/request_test.rb",
      "test/response_test.rb",
      "test/send_test.rb",
