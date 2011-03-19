@@ -22,17 +22,27 @@ module FaxFinder
 
     def post
       response_body=nil
-      Net::HTTP.start(Request.host, Request.port) { |http|  
-        http.use_ssl=Request.ssl
-        http_request = yield
-        http_request.basic_auth self.user, self.password
-        http_request.set_content_type(Request::CONTENT_TYPE)
-        http_response = http.request(http_request)
-        response_body=http_response.body
-      }
-      return Response.new(Nokogiri::XML(response_body))
+      begin
+        Net::HTTP.start(Request.host, Request.port) { |http|  
+          http.use_ssl=Request.ssl
+          http_request = yield
+          http_request.basic_auth self.user, self.password
+          http_request.set_content_type(Request::CONTENT_TYPE)
+          http_response = http.request(http_request)
+          response_body=http_response.body
+        }
+      rescue Errno::ECONNREFUSED => e
+        response_body=Responses::NO_CONNECTION
+      rescue Error => e
+        response_body=Responses::APPLICATION_ERROR.gsub(Responses::ERROR_GSUB, e.message)
+      end
+      Response.new(Nokogiri::XML(response_body))
     end
 
+    # def proces_http_response(http_response)
+    #   return 
+    # end
+    # 
     def formatted_fax_finder_time(time)
       result=nil
       if time

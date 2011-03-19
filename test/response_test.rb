@@ -29,6 +29,10 @@ module FaxFinder
     def test_set_try_number
       assert_equal(1, @response.try_number)
     end
+    
+    def test_set_message
+      assert_equal('Success', @response.message)
+    end
   end
   
   class ResponseMethodsTest<Test::Unit::TestCase

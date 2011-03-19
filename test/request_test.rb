@@ -61,5 +61,50 @@ module FaxFinder
 
     end
 
-  
+    class MockRequest<FaxFinder::Request
+      def self.post
+        super(){
+          construct_http_request
+        }
+      end
+
+      def self.construct_http_request
+        request = Net::HTTP::Get.new('/ffws/v1/ofax')
+        request.basic_auth self.user, self.password
+        request.set_content_type(Request::CONTENT_TYPE)
+        request
+      end
+    end
+    
+    class RequestPostConnectionFailureTest<Test::Unit::TestCase
+      def setup
+        @response=nil
+        Request.configure(nil, 'user', 'password', 123, true)
+        @post=lambda{
+          @response=MockRequest.post
+        }
+      end
+      
+      def test_handles_connection_failure
+        @host=nil
+        assert_nothing_thrown { @post.call }
+      end
+      
+      def test_returns_a_response
+        @post.call
+        assert_instance_of(FaxFinder::Response, @response)
+      end
+      
+      def test_sets_the_state
+        @post.call
+        assert_equal('error', @response.state)        
+      end
+
+      def test_sets_the_message
+        @post.call
+        assert_equal('No connection to fax server', @response.message)        
+      end
+      
+    end
+    
 end
