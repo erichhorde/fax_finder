@@ -33,7 +33,7 @@ module FaxFinder
         }
       rescue Errno::ECONNREFUSED => e
         response_body=Responses::NO_CONNECTION
-      rescue Error => e
+      rescue RuntimeError => e
         response_body=Responses::APPLICATION_ERROR.gsub(Responses::ERROR_GSUB, e.message)
       end
       Response.new(Nokogiri::XML(response_body))
