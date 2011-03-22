@@ -33,6 +33,10 @@ module FaxFinder
     def test_set_message
       assert_equal('Success', @response.message)
     end
+    
+    def test_sets_schedule_message
+      assert_equal('Successfully sent fax', @response.schedule_message)
+    end
   end
   
   class ResponseMethodsTest<Test::Unit::TestCase

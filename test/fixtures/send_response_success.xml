@@ -5,7 +5,7 @@
     <fax_entry_url>https://192.168.2.1/ffws/v1/ofax/0000001B/0000</fax_entry_url>
     <fax_url>https://192.168.2.1/ffws/v1/ofax/0000001B</fax_url>
     <state>preprocessing</state>
-    <schedule_message>New fax entry</schedule_message>
+    <schedule_message>Successfully sent fax</schedule_message>
     <created>2008-08-01 08:43:29</created>
     <stime>2008-08-01 08:52:29</stime>
     <try_number>1</try_number>

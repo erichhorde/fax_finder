@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "fax_finder.gemspec",
+     "fax_finder.tmproj",
      "lib/fax_finder.rb",
      "lib/fax_finder/query.rb",
      "lib/fax_finder/request.rb",
