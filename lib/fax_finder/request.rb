@@ -26,7 +26,7 @@ module FaxFinder
         Net::HTTP.start(Request.host, Request.port) { |http|  
           http.use_ssl=Request.ssl
           http_request = yield
-          http_request.basic_auth self.user, self.password
+          http_request.basic_auth Request.user, Request.password
           http_request.set_content_type(Request::CONTENT_TYPE)
           http_response = http.request(http_request)
           response_body=http_response.body
