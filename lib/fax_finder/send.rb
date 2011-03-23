@@ -21,8 +21,9 @@ module FaxFinder
       
       builder.schedule_fax {
         builder.cover_page do
-          builder.subject(options[:subject])
-          builder.comment(options[:comment])
+          # builder.subject(options[:subject])
+          # builder.comment(options[:comment])
+          builder.enabled('false')
         end
 
         builder.recipient do
