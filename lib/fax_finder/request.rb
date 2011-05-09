@@ -22,6 +22,7 @@ module FaxFinder
 
     def post
       response_body=nil
+
       begin
         Net::HTTP.start(Request.host, Request.port) { |http|  
           http.use_ssl=Request.ssl

@@ -1,7 +1,7 @@
 #--
 # (The MIT License)
 #
-# Copyright (c) 2008 Szymon Nowak & Pawel Kozlowski (U2I)
+# Copyright (c) 2011 Horde Software, LLC (U2I)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -25,7 +25,6 @@
 $:.unshift(File.dirname(__FILE__)) unless $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 require 'net/http'
 require 'net/https'
-
 require 'fax_finder/response.rb'
 require 'fax_finder/request.rb'
 require 'fax_finder/send.rb'
