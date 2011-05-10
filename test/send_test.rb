@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/test_helper'
-
+require "base64"
 module FaxFinder
   OPTIONS={:subject=>'Something',
     :comment=>'Comment',
@@ -93,6 +93,68 @@ module FaxFinder
       assert_equal(Time.now.utc.strftime(Request::TIME_FORMAT), @doc.xpath('//schedule_fax/schedule_all_at').text)
     end
 
+  end
+  
+  class SendConstructXMLTestEmbedDocument<Test::Unit::TestCase
+    def setup
+      @file=File.open(File.join('test', 'fixtures', 'test.pdf'))
+      @options=OPTIONS.merge(
+        :content=>@file,
+        :content_type=>'application/pdf'
+      )
+      @doc=Nokogiri::XML(Send.construct_xml('1234567890', @options))
+    end
+    
+    def test_encodes_files
+      @file.rewind
+      @file.binmode
+      encoded=Base64.encode64(@file.read).gsub(/\n/, '')
+      assert_equal(encoded, @doc.xpath('//schedule_fax/attachment/content').text)
+    end
+    
+    def test_should_call_rewind_on_the_file
+      @file.rewind
+      @file.binmode
+      encoded=Base64.encode64(@file.read).gsub(/\n/, '')
+      @doc=Nokogiri::XML(Send.construct_xml('1234567890', @options.merge(:content=>@file)))
+      assert_equal(encoded, @doc.xpath('//schedule_fax/attachment/content').text)
+    end
+  
+    def test_including_an_external_url_will_override_embedded_document
+      @doc=Nokogiri::XML(Send.construct_xml('1234567890', @options.merge(:external_url=>'https://localhost/something')))
+      assert_empty(@doc.xpath('//schedule_fax/attachment/content'))
+    end
+
+    def test_supports_passing_in_a_base64_string_directly
+      @file.rewind
+      @file.binmode
+      encoded=Base64.encode64(@file.read).gsub(/\n/, '')
+      
+      @doc=Nokogiri::XML(Send.construct_xml('1234567890', @options.merge(:content=>encoded)))
+      assert_equal(encoded, @doc.xpath('//schedule_fax/attachment/content').text)
+    end
+    
+    def test_sets_the_content_type
+      assert_equal('application/pdf', @doc.xpath('//schedule_fax/attachment/content_type').text)      
+    end
+    
+    def test_sets_location_as_inline
+      assert_equal('inline', @doc.xpath('//schedule_fax/attachment/location').text)      
+    end
+    
+    def test_sets_the_filename_from_the_file_path
+      assert_equal(File.basename(@file.path), @doc.xpath('//schedule_fax/attachment/name').text)
+    end
+
+    def test_sets_the_content_transfer_encoding
+      assert_equal('base64', @doc.xpath('//schedule_fax/attachment/content_transfer_encoding').text)
+    end
+    
+    def test_supports_overrding_filename
+      @doc=Nokogiri::XML(Send.construct_xml('1234567890', @options.merge(:attachment_name=>'attachment.name')))
+      assert_equal('attachment.name', @doc.xpath('//schedule_fax/attachment/name').text)
+    end
+    
   end
   
   class SendConstructHttpRequestTest<Test::Unit::TestCase

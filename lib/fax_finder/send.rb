@@ -20,6 +20,18 @@ module FaxFinder
       formatted_time=time ? time.strftime(Request::TIME_FORMAT) : nil
       
       external_url=options[:external_url]
+      if external_url.nil? && _content=options[:content]
+        if _content.is_a?(String)
+          content=_content
+        else
+          _content.rewind
+          _content.binmode
+          attachment_name = options[:attachment_name] || File.basename(_content.path)
+          content=Base64.encode64(_content.read).gsub(/\n/, '')
+        end
+      else
+        content=nil
+      end
       
       builder.schedule_fax {
         builder.cover_page do
@@ -42,9 +54,19 @@ module FaxFinder
           builder.name(options[:sender_name])
         end
 
-        builder.attachment do
-          builder.location('external')
-          builder.url(external_url)
+       builder.attachment do
+          if external_url
+            builder.location('external')
+            builder.url(external_url)
+          elsif content
+            builder.content(content)
+            builder.name(options[:filename])
+            builder.attachment_name(attachment_name)
+            builder.content_transfer_encoding('base64')
+            builder.location('inline')
+            builder.name(attachment_name)
+            builder.content_type(options[:content_type])
+          end
         end
         builder.schedule_all_at(formatted_fax_finder_time(options[:schedule_all_at]))
       }
