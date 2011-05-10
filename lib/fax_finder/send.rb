@@ -4,13 +4,13 @@ require 'builder'
 module FaxFinder
   module SendClassMethods
 
-    def post(recipient_fax, external_url, options={})
+    def post(recipient_fax, options={})
       super(){
-        construct_http_request(recipient_fax, external_url, options)
+        construct_http_request(recipient_fax, options)
       }
     end
 
-    def construct_xml(recipient_fax, external_url, options={})
+    def construct_xml(recipient_fax, options={})
       xml = ""
       builder = Builder::XmlMarkup.new(:target => xml, :indent => 2 )      
       builder.instruct!(:xml, :version=>'1.0', :encoding=>'UTF-8')
@@ -19,10 +19,12 @@ module FaxFinder
       time=time.utc if time && !time.utc?
       formatted_time=time ? time.strftime(Request::TIME_FORMAT) : nil
       
+      external_url=options[:external_url]
+      
       builder.schedule_fax {
         builder.cover_page do
-          # builder.subject(options[:subject])
-          # builder.comment(options[:comment])
+          builder.subject(options[:subject])
+          builder.comment(options[:comment])
           builder.enabled('false')
         end
 
@@ -49,9 +51,9 @@ module FaxFinder
       xml
     end
     
-    def construct_http_request(recipient_fax, external_url, options={})
+    def construct_http_request(recipient_fax, options={})
       request = Net::HTTP::Post.new(Request::BASE_PATH)
-      request.body=construct_xml(recipient_fax, external_url, options)
+      request.body=construct_xml(recipient_fax, options)
       request
     end
 

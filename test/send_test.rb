@@ -23,17 +23,17 @@ module FaxFinder
     end
     
     def test_posts_returns_response
-      assert_instance_of(FaxFinder::Response, Send.post(nil, nil))
+      assert_instance_of(FaxFinder::Response, Send.post(nil))
     end
   end
 
   class SendConstructXMLTest<Test::Unit::TestCase
     def setup
-      @doc=Nokogiri::XML(Send.construct_xml('1234567890', 'https://localhost/something', OPTIONS))
+      @doc=Nokogiri::XML(Send.construct_xml('1234567890', OPTIONS.merge(:external_url=>'https://localhost/something')))
     end
     
     def test_returns_string_and_doesnt_blow_up
-      assert_nothing_thrown { assert_instance_of(String, Send.construct_xml(nil, nil)) }
+      assert_nothing_thrown { assert_instance_of(String, Send.construct_xml(nil)) }
     end
 
     def test_includes_subject
@@ -89,7 +89,7 @@ module FaxFinder
     end
 
     def test_converts_to_utc
-      @doc=Nokogiri::XML(Send.construct_xml('1234567890', 'https://localhost/something', OPTIONS.merge(:schedule_all_at=>Time.now)))
+      @doc=Nokogiri::XML(Send.construct_xml('1234567890', OPTIONS.merge(:schedule_all_at=>Time.now, :external_url=>'https://localhost/something')))
       assert_equal(Time.now.utc.strftime(Request::TIME_FORMAT), @doc.xpath('//schedule_fax/schedule_all_at').text)
     end
 
@@ -98,7 +98,7 @@ module FaxFinder
   class SendConstructHttpRequestTest<Test::Unit::TestCase
     def setup
       Request.configure('example.com', 'user', 'password')
-      @http_request=Send.construct_http_request('1234567890', 'https://localhost/something', OPTIONS)
+      @http_request=Send.construct_http_request('1234567890', OPTIONS.merge(:external_url=>'https://localhost/something'))
     end
 
     def test_returns_a_post
@@ -106,7 +106,7 @@ module FaxFinder
     end
     
     def test_sets_body
-      assert_equal(Send.construct_xml('1234567890', 'https://localhost/something', OPTIONS), @http_request.body)
+      assert_equal(Send.construct_xml('1234567890', OPTIONS.merge(:external_url=>'https://localhost/something')), @http_request.body)
     end
     
     def test_sets_path
