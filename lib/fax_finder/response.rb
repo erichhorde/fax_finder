@@ -2,15 +2,6 @@ module FaxFinder
   module Responses
     ERROR_GSUB='####MESSAGE#####'
     
-    NO_CONNECTION =<<-EOXML
-    <response>
-      <message>No connection to fax server</message>
-      <fax_entry>
-        <state>error</state>
-      </fax_entry>
-    </response>    
-    EOXML
-
     APPLICATION_ERROR =<<-EOXML
     <response>
       <message>####MESSAGE#####</message>
@@ -19,6 +10,11 @@ module FaxFinder
       </fax_entry>
     </response>    
     EOXML
+        
+    NO_CONNECTION = APPLICATION_ERROR.gsub('####MESSAGE#####', 'No connection to fax server')
+
+    UNAUTHORIZED = APPLICATION_ERROR.gsub('####MESSAGE#####', 'Unauthorized to communicate with fax server.')
+    
   end
 
   class Response

@@ -68,6 +68,8 @@ module FaxFinder
             builder.content_type(options[:content_type])
           end
         end
+        builder.try_interval(options[:try_interval])        
+        builder.max_tries(options[:max_tries])
         builder.schedule_all_at(formatted_fax_finder_time(options[:schedule_all_at]))
       }
       xml

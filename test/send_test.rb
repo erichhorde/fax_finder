@@ -10,7 +10,9 @@ module FaxFinder
     :sender_name=>'sender_name',
     :sender_organization=>'sender_organization',
     :sender_phone_number=>'0987654321',
-    :schedule_all_at=>Time.now.utc
+    :schedule_all_at=>Time.now.utc,
+    :try_interval=>23,
+    :max_tries=>17
   }
   
   class SendPostTest<Test::Unit::TestCase
@@ -82,6 +84,15 @@ module FaxFinder
 
     def test_includes_attachment_url
       assert_equal('https://localhost/something', @doc.xpath('//schedule_fax/attachment/url').text)
+    end
+
+    def test_includes_max_tries
+      assert_equal('17', @doc.xpath('//schedule_fax/max_tries').text)
+    end
+
+
+    def test_includes_try_interval
+      assert_equal('23', @doc.xpath('//schedule_fax/try_interval').text)
     end
 
     def test_includes_schedule_all_at
