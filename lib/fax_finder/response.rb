@@ -14,6 +14,8 @@ module FaxFinder
     NO_CONNECTION = APPLICATION_ERROR.gsub('####MESSAGE#####', 'No connection to fax server')
 
     UNAUTHORIZED = APPLICATION_ERROR.gsub('####MESSAGE#####', 'Unauthorized to communicate with fax server.')
+
+    BAD_SSL_CONFIG = APPLICATION_ERROR.gsub('####MESSAGE#####', 'Your connection is not configured correctly.  If you are using SSL, make sure the port is is set to 443.')
     
   end
 

@@ -24,8 +24,12 @@ module FaxFinder
       response_body=nil
 
       begin
-        Net::HTTP.start(Request.host, Request.port) { |http|  
-          http.use_ssl=Request.ssl
+        
+        _http=Net::HTTP.new(Request.host, Request.port) 
+        _http.use_ssl=Request.ssl
+        _http.verify_mode = OpenSSL::SSL::VERIFY_NONE if _http.use_ssl?
+        
+        _http.start {|http|
           http_request = yield
           http_request.basic_auth Request.user, Request.password
           http_request.set_content_type(Request::CONTENT_TYPE)
@@ -34,6 +38,8 @@ module FaxFinder
         }
       rescue Errno::ECONNREFUSED => e
         response_body=Responses::NO_CONNECTION
+      rescue OpenSSL::SSL::SSLError => e
+        response_body=Responses::BAD_SSL_CONFIG
       rescue RuntimeError => e
         response_body=Responses::APPLICATION_ERROR.gsub(Responses::ERROR_GSUB, e.message)
       end
