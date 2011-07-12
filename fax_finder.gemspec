@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     "lib/fax_finder/send.rb",
     "pkg/fax_finder-0.2.1.gem",
     "pkg/fax_finder-0.2.2.gem",
+    "pkg/fax_finder-0.3.0.gem",
     "test/abort_test.rb",
     "test/fixtures/send_request_external.xml",
     "test/fixtures/send_request_inline.xml",
