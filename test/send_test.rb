@@ -32,6 +32,8 @@ module FaxFinder
   class SendConstructXMLTest<Test::Unit::TestCase
     def setup
       @doc=Nokogiri::XML(Send.construct_xml('1234567890', OPTIONS.merge(:external_url=>'https://localhost/something')))
+      now=Time.now.utc
+      @now_utc=DateTime.civil(Date.today.year, Date.today.month, Date.today.day, now.hour, now.min, now.sec)
     end
     
     def test_returns_string_and_doesnt_blow_up
@@ -96,12 +98,14 @@ module FaxFinder
     end
 
     def test_includes_schedule_all_at
-      assert_equal(Time.now.utc.strftime(Request::TIME_FORMAT), @doc.xpath('//schedule_fax/schedule_all_at').text)
+      actual=DateTime.parse(@doc.xpath('//schedule_fax/schedule_all_at').text)
+      (@now_utc.ajd-actual.ajd).abs < 5
     end
 
     def test_converts_to_utc
       @doc=Nokogiri::XML(Send.construct_xml('1234567890', OPTIONS.merge(:schedule_all_at=>Time.now, :external_url=>'https://localhost/something')))
-      assert_equal(Time.now.utc.strftime(Request::TIME_FORMAT), @doc.xpath('//schedule_fax/schedule_all_at').text)
+      actual=DateTime.now(@doc.xpath('//schedule_fax/schedule_all_at').text)
+      (@now_utc.ajd-actual.ajd).abs < 5
     end
 
   end
