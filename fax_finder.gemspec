@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Erich L. Timkar"]
-  s.date = %q{2011-07-13}
+  s.authors = [%q{Erich L. Timkar}]
+  s.date = %q{2011-09-28}
   s.email = %q{erich@hordesoftware.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -45,9 +45,9 @@ Gem::Specification.new do |s|
     "test/test_helper.rb"
   ]
   s.homepage = %q{http://github.com/erichhorde/fax_finder}
-  s.require_paths = ["lib"]
+  s.require_paths = [%q{lib}]
   s.rubyforge_project = %q{fax_finder}
-  s.rubygems_version = %q{1.7.2}
+  s.rubygems_version = %q{1.8.6}
   s.summary = %q{Provides support MultiTech's FaxFinder server}
 
   if s.respond_to? :specification_version then
@@ -55,19 +55,19 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<nokogiri>, ["= 1.4.4"])
-      s.add_runtime_dependency(%q<builder>, ["~> 2.1.2"])
-      s.add_development_dependency(%q<test-unit>, ["~> 2"])
+      s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
+      s.add_development_dependency(%q<test-unit>)
       s.add_development_dependency(%q<mocha>, [">= 0.9"])
     else
-      s.add_dependency(%q<nokogiri>, ["= 1.4.4"])
-      s.add_dependency(%q<builder>, ["~> 2.1.2"])
+      s.add_dependency(%q<nokogiri>, ["~> 1.5"])
+      s.add_dependency(%q<builder>, [">= 2.1.2"])
       s.add_dependency(%q<test-unit>, ["~> 2"])
       s.add_dependency(%q<mocha>, [">= 0.9"])
     end
   else
-    s.add_dependency(%q<nokogiri>, ["= 1.4.4"])
-    s.add_dependency(%q<builder>, ["~> 2.1.2"])
-    s.add_dependency(%q<test-unit>, ["~> 2"])
+    s.add_dependency(%q<nokogiri>, ["~> 1.5"])
+    s.add_dependency(%q<builder>, [">= 2.1.2"])
+    s.add_dependency(%q<test-unit>)
     s.add_dependency(%q<mocha>, [">= 0.9"])
   end
 end

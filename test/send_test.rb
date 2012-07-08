@@ -137,7 +137,7 @@ module FaxFinder
   
     def test_including_an_external_url_will_override_embedded_document
       @doc=Nokogiri::XML(Send.construct_xml('1234567890', @options.merge(:external_url=>'https://localhost/something')))
-      assert_empty(@doc.xpath('//schedule_fax/attachment/content'))
+      assert_equal(0, @doc.xpath('//schedule_fax/attachment/content').length)
     end
 
     def test_supports_passing_in_a_base64_string_directly

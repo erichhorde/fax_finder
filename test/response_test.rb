@@ -41,20 +41,20 @@ module FaxFinder
   
   class ResponseMethodsTest<Test::Unit::TestCase
     def setup
-      @response=Response.new#(Nokogiri::XML(File.open('test/fixtures/send_response_success.xml')))
+      @response=Response.new(Nokogiri::XML(File.open('test/fixtures/send_response_success.xml')))
     end
     
-    def extract_fax_and_entry_key_handles_nil
+    def test_extract_fax_and_entry_key_handles_nil
       assert_nothing_thrown { 
-        assert_equal([nil, nil], @response.extract_fax_and_entry_key(nil) )
+        assert_equal(nil, @response.extract_fax_and_entry_key(nil) )
       }
     end
 
-    def extract_fax_and_entry_key_handles_parses_url
+    def test_extract_fax_and_entry_key_handles_parses_url
       assert_nothing_thrown { @response.extract_fax_and_entry_key(nil) }
     end
     
-    def extract_fax_and_entry_key_handles_parses_url
+    def test_extract_fax_and_entry_key_handles_parses_url
       assert_equal(['0000001B','0000'], @response.extract_fax_and_entry_key('https://192.168.2.1/ffws/v1/ofax/0000001B/0000'))
     end
    

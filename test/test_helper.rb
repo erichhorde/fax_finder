@@ -1,7 +1,7 @@
 require 'rubygems'
-gem 'test-unit', '~> 2'
+# gem 'test-unit', '~> 2'
 require 'test/unit'
-gem 'mocha'
+# gem 'mocha'
 require 'mocha'
 # require 'builder'
   
