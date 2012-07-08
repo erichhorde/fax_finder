@@ -4,13 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{fax_finder}
-  s.version = "0.3.0"
+  s.name = "fax_finder"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{Erich L. Timkar}]
-  s.date = %q{2011-09-28}
-  s.email = %q{erich@hordesoftware.com}
+  s.authors = ["Erich L. Timkar"]
+  s.date = "2012-07-08"
+  s.email = "erich@hordesoftware.com"
   s.extra_rdoc_files = [
     "LICENSE",
     "README.rdoc"
@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.files = [
     ".project",
     "Changelog",
+    "Gemfile",
+    "Gemfile.lock",
     "LICENSE",
     "README.rdoc",
     "Rakefile",
@@ -30,9 +32,6 @@ Gem::Specification.new do |s|
     "lib/fax_finder/request.rb",
     "lib/fax_finder/response.rb",
     "lib/fax_finder/send.rb",
-    "pkg/fax_finder-0.2.1.gem",
-    "pkg/fax_finder-0.2.2.gem",
-    "pkg/fax_finder-0.3.0.gem",
     "test/abort_test.rb",
     "test/fixtures/send_request_external.xml",
     "test/fixtures/send_request_inline.xml",
@@ -44,30 +43,45 @@ Gem::Specification.new do |s|
     "test/send_test.rb",
     "test/test_helper.rb"
   ]
-  s.homepage = %q{http://github.com/erichhorde/fax_finder}
-  s.require_paths = [%q{lib}]
-  s.rubyforge_project = %q{fax_finder}
-  s.rubygems_version = %q{1.8.6}
-  s.summary = %q{Provides support MultiTech's FaxFinder server}
+  s.homepage = "http://github.com/erichhorde/fax_finder"
+  s.require_paths = ["lib"]
+  s.rubyforge_project = "fax_finder"
+  s.rubygems_version = "1.8.24"
+  s.summary = "Provides support MultiTech's FaxFinder server"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<nokogiri>, ["= 1.4.4"])
+      s.add_runtime_dependency(%q<rake>, [">= 0"])
+      s.add_runtime_dependency(%q<nokogiri>, ["~> 1.5"])
       s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
-      s.add_development_dependency(%q<test-unit>)
+      s.add_runtime_dependency(%q<mocha>, [">= 0.9"])
+      s.add_runtime_dependency(%q<jeweler>, [">= 0"])
+      s.add_runtime_dependency(%q<nokogiri>, [">= 1.5"])
+      s.add_runtime_dependency(%q<builder>, [">= 2.1.2"])
+      s.add_development_dependency(%q<test-unit>, ["~> 2"])
       s.add_development_dependency(%q<mocha>, [">= 0.9"])
     else
+      s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<nokogiri>, ["~> 1.5"])
+      s.add_dependency(%q<builder>, [">= 2.1.2"])
+      s.add_dependency(%q<mocha>, [">= 0.9"])
+      s.add_dependency(%q<jeweler>, [">= 0"])
+      s.add_dependency(%q<nokogiri>, [">= 1.5"])
       s.add_dependency(%q<builder>, [">= 2.1.2"])
       s.add_dependency(%q<test-unit>, ["~> 2"])
       s.add_dependency(%q<mocha>, [">= 0.9"])
     end
   else
+    s.add_dependency(%q<rake>, [">= 0"])
     s.add_dependency(%q<nokogiri>, ["~> 1.5"])
     s.add_dependency(%q<builder>, [">= 2.1.2"])
-    s.add_dependency(%q<test-unit>)
+    s.add_dependency(%q<mocha>, [">= 0.9"])
+    s.add_dependency(%q<jeweler>, [">= 0"])
+    s.add_dependency(%q<nokogiri>, [">= 1.5"])
+    s.add_dependency(%q<builder>, [">= 2.1.2"])
+    s.add_dependency(%q<test-unit>, ["~> 2"])
     s.add_dependency(%q<mocha>, [">= 0.9"])
   end
 end
